@@ -42,7 +42,7 @@ jobs:
 
   build-dockerhub:
     if: inputs.registry == 'dockerhub'
-    uses: ./.github/workflows/docker/docker-dockerhub-build.yml
+    uses: ./.github/workflows/docker-dockerhub-build.yml
     strategy:
       matrix:
         target: [web, fpm, cli, cron]
@@ -55,7 +55,7 @@ jobs:
 
   build-ecr:
     if: inputs.registry == 'ecr'
-    uses: ./.github/workflows/docker/docker-ecr-build.yml
+    uses: ./.github/workflows/docker-ecr-build.yml
     strategy:
       matrix:
         target: [ web, fpm, cli, cron ]
