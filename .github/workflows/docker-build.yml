@@ -1,0 +1,67 @@
+name: Docker Build
+
+permissions:
+  id-token: write
+  contents: read
+
+on:
+  workflow_dispatch:
+    inputs:
+      image:
+        description: 'Image Name'
+        required: true
+        type: string
+      registry:
+        description: 'Docker Registry'
+        required: true
+        type: choice
+        options:
+          - dockerhub
+          - ecr
+      tag:
+        description: 'Tag for docker images'
+        required: false
+        type: string
+  workflow_call:
+    inputs:
+      image:
+        description: 'Image Name'
+        required: true
+        type: string
+      registry:
+        description: 'Docker Registry'
+        required: true
+        type: string
+        default: 'dockerhub'
+      tag:
+        description: 'Tag for docker images'
+        required: false
+        type: string
+
+jobs:
+
+  build-dockerhub:
+    if: inputs.registry == 'dockerhub'
+    uses: ./.github/workflows/docker/docker-dockerhub-build.yml
+    strategy:
+      matrix:
+        target: [web, fpm, cli, cron]
+    concurrency:
+      group: docker-build-${{ matrix.target }}
+    with:
+      image: yourulz
+      tag: ${{ inputs.tag || github.sha }}
+      target: ${{ matrix.target }}
+
+  build-ecr:
+    if: inputs.registry == 'ecr'
+    uses: ./.github/workflows/docker/docker-ecr-build.yml
+    strategy:
+      matrix:
+        target: [ web, fpm, cli, cron ]
+    concurrency:
+      group: docker-build-${{ inputs.registry }}-${{ matrix.target }}
+    with:
+      image: ${{ inputs.image }}
+      tag: ${{ inputs.tag || github.sha }}
+      target: ${{ matrix.target }}

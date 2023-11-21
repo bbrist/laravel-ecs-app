@@ -1,0 +1,70 @@
+name: Docker Build Image
+
+permissions:
+  id-token: write
+  contents: read
+
+on:
+  workflow_call:
+    inputs:
+      image:
+        description: 'Image Name'
+        required: true
+        type: string
+      tag:
+        description: 'Image Tag'
+        required: false
+        type: string
+      target:
+        description: 'Dockerfile Target'
+        type: string
+        required: true
+  workflow_dispatch:
+    inputs:
+      image:
+        description: 'Image Name'
+        required: true
+        type: string
+      tag:
+        description: 'Image Tag'
+        required: false
+        type: string
+      target:
+        description: 'Dockerfile Target'
+        type: choice
+        required: true
+        options:
+          - web
+          - fpm
+          - cli
+          - cron
+
+jobs:
+
+  build:
+    name: "Build Docker Image"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          role-to-assume: ${{ vars.AWS_ASSUME_ROLE }}
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: Login
+        id: login
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Build and Push
+        env:
+          REGISTRY: ${{ steps.login.outputs.registry }}
+          REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+          IMAGE_NAME: ${{ inputs.image }}-${{ inputs.target }}
+          TARGET: ${{ inputs.target }}
+          IMAGE_TAG: ${{ inputs.tag || github.sha }}
+        run: |
+          cd webapp
+          export IMAGE=$REGISTRY/$REPOSITORY/$IMAGE_NAME:$IMAGE_TAG
+          docker build -t $IMAGE --target $TARGET .
+          docker push $IMAGE
