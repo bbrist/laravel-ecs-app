@@ -54,7 +54,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and Push
         env:
-          REPOSITORY: ${{ secrets.DOCKERHUB_REPOSITORY }}
+          REPOSITORY: ${{ env.DOCKERHUB_REPOSITORY }}
           IMAGE_NAME: ${{ inputs.image }}-${{ inputs.target }}
           TARGET: ${{ inputs.target }}
           IMAGE_TAG: ${{ inputs.tag || github.sha }}
