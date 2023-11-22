@@ -43,6 +43,7 @@ jobs:
   build-dockerhub:
     if: inputs.registry == 'dockerhub'
     uses: ./.github/workflows/docker-dockerhub-build.yml
+    secrets: inherit
     strategy:
       matrix:
         target: [web, fpm, cli, cron]
@@ -56,6 +57,7 @@ jobs:
   build-ecr:
     if: inputs.registry == 'ecr'
     uses: ./.github/workflows/docker-ecr-build.yml
+    secrets: inherit
     strategy:
       matrix:
         target: [ web, fpm, cli, cron ]
