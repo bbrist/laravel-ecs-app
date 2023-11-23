@@ -1,0 +1,27 @@
+app:
+  identifier: rediron
+  context:
+    key: /context/${app.identifier}-${env}-context
+  cluster:
+    name: ${app.identifier}-ecs-cluster-${env}
+    containerInsights: true
+    vpcId: vpc-0ea2112c12e37ca5c
+    securityGroupId: sg-08ae8d757d365ee6c
+    assignPublicIp: true
+  debug: true
+  database:
+    name: laravel
+    username: laravel
+  filesystem:
+    name: ${app.identifier}-filesystem-${env}
+  cache:
+    name: ${app.identifier}-cache-${env}
+  domain:
+    root: rediron.io
+    name: ${env}.${app.domain.root}
+    certificateArn: arn:aws:acm:us-east-2:344050904576:certificate/5d2652ba-6032-420c-ad0a-ac04072cb202
+
+image:
+  repository: brettbrist
+  prefix: 'laravel-ecs-app-'
+  tag: 0.1.0

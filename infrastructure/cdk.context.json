@@ -1,0 +1,42 @@
+{
+  "vpc-provider:account=344050904576:filter.vpc-id=vpc-0ea2112c12e37ca5c:region=us-east-2:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-0ea2112c12e37ca5c",
+    "vpcCidrBlock": "14.0.0.0/16",
+    "ownerAccountId": "344050904576",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-0897364187a2c3e7f",
+            "cidr": "14.0.1.0/24",
+            "availabilityZone": "us-east-2a",
+            "routeTableId": "rtb-0110ecac73e39e8fb"
+          },
+          {
+            "subnetId": "subnet-070af6510d8204499",
+            "cidr": "14.0.2.0/24",
+            "availabilityZone": "us-east-2b",
+            "routeTableId": "rtb-0110ecac73e39e8fb"
+          }
+        ]
+      }
+    ]
+  },
+  "security-group:account=344050904576:region=us-east-2:securityGroupId=sg-08ae8d757d365ee6c": {
+    "securityGroupId": "sg-08ae8d757d365ee6c",
+    "allowAllOutbound": false
+  },
+  "load-balancer:account=344050904576:loadBalancerArn=arn$:aws$:elasticloadbalancing$:us-east-2$:344050904576$:loadbalancer/app/rediron-ecs-cluster-loadbalancer/ec891245f1c65e41:loadBalancerType=application:region=us-east-2": {
+    "loadBalancerArn": "arn:aws:elasticloadbalancing:us-east-2:344050904576:loadbalancer/app/rediron-ecs-cluster-loadbalancer/ec891245f1c65e41",
+    "loadBalancerCanonicalHostedZoneId": "Z3AADJGX6KTTL2",
+    "loadBalancerDnsName": "rediron-ecs-cluster-loadbalancer-912973793.us-east-2.elb.amazonaws.com",
+    "vpcId": "vpc-0ea2112c12e37ca5c",
+    "securityGroupIds": [
+      "sg-08ae8d757d365ee6c"
+    ],
+    "ipAddressType": "ipv4"
+  }
+}

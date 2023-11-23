@@ -1,7 +1,6 @@
 server {
     listen 80 default_server;
-    # comment this out to disable ipv6
-    #listen [::]:80 default_server;
+    listen [::]:80 default_server;
 
     # We need to set the root for our server,
     # so any static file requests gets loaded from the correct path
