@@ -144,8 +144,8 @@ export class InfrastructureStack extends cdk.Stack {
       return new SqsQueue(this, `${queueName}Queue`, {
         name: {
           name: queueName,
-          prefix: `${appName}-`,
-          suffix: `-queue-${environment}`,
+          prefix: ``,
+          suffix: `-${appName}-queue-${environment}`,
         },
         dlq: {},
         maxReceiveCount: config.maxReceiveCount ?? 1,
@@ -199,8 +199,8 @@ export class InfrastructureStack extends cdk.Stack {
         SESSION_DRIVER: 'dynamodb',
         SESSION_STORE: 'dynamodb',
         QUEUE_CONNECTION: 'sqs',
-        SQS_PREFIX: `https://sqs.us-east-1.amazonaws.com/${props?.env?.account}/${appName}-`,
-        SQS_SUFFIX: `-queue-${environment}`,
+        SQS_PREFIX: `https://sqs.${props?.env?.region}.amazonaws.com/${props?.env?.account}/`,
+        SQS_SUFFIX: `${appName}-queue-${environment}`,
         FILESYSTEM_DISK: 's3',
         AWS_BUCKET: filesystem.bucketName,
         DB_CONNECTION: 'mysql',
