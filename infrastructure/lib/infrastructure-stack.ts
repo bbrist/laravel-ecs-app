@@ -199,6 +199,7 @@ export class InfrastructureStack extends cdk.Stack {
         SESSION_DRIVER: 'dynamodb',
         SESSION_STORE: 'dynamodb',
         QUEUE_CONNECTION: 'sqs',
+        LOG_CHANNEL: 'stdout',
         SQS_PREFIX: `https://sqs.${props?.env?.region}.amazonaws.com/${props?.env?.account}/`,
         SQS_SUFFIX: `${appName}-queue-${environment}`,
         FILESYSTEM_DISK: 's3',
